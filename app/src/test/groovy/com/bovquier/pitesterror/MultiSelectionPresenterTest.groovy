@@ -3,7 +3,7 @@ package com.bovquier.pitesterror
 import rx.schedulers.TestScheduler
 import spock.lang.Specification
 
-public class MultiSelectionPresenterTest extends Specification {
+class MultiSelectionPresenterTest extends Specification {
     def view = Mock(MultiSelectionContract.View)
 
     def testScheduler = new TestScheduler()
@@ -29,52 +29,7 @@ public class MultiSelectionPresenterTest extends Specification {
         model.setAnswer("[1, 2, 3]")
         model.setContent(contentEntity)
 
-        presenter = new MultiSelectionPresenter(
-                testScheduler,
-                testScheduler
-        )
-    }
-
-    def "should set model"() {
-        given:
-        presenter.@model = null
-
-        when:
-        presenter.setModel(model)
-
-        then:
-        presenter.@model == model
-    }
-
-    def "should set view title on bind"() {
-        given:
-        presenter.setModel(model)
-
-        when:
-        presenter.bind(view)
-
-        then:
-        1 * view.setTitle("title", model.isRequired())
-
-        and:
-        presenter.compositeSubscription.hasSubscriptions()
-    }
-
-    def "should set view options on bind"() {
-        given:
-        presenter.setModel(model)
-
-        when:
-        presenter.bind(view)
-
-        and:
-        testScheduler.triggerActions()
-
-        then:
-        1 * view.addOption(option1)
-
-        then:
-        1 * view.addOption(option2)
+        presenter = new MultiSelectionPresenter(testScheduler)
     }
 
     def "should read answers on bind"() {
@@ -113,20 +68,6 @@ public class MultiSelectionPresenterTest extends Specification {
 
         then:
         1 * view.selectOption(3)
-    }
-
-    def "should do nothing on unbind"() {
-        given:
-        presenter.setModel(model)
-
-        and:
-        presenter.bind(view)
-
-        when:
-        presenter.unbind()
-
-        then:
-        !presenter.compositeSubscription.hasSubscriptions()
     }
 
     def "should set answer on option selected"() {

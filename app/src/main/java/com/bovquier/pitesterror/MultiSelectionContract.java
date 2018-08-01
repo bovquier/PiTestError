@@ -14,8 +14,6 @@ public class MultiSelectionContract {
 
         void bind(View view);
 
-        void unbind();
-
         void optionSelected(int checkedId, boolean isChecked);
     }
 }

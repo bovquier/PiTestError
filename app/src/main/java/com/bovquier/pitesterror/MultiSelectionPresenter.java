@@ -10,23 +10,17 @@ import java.util.TreeSet;
 import rx.Observable;
 import rx.Scheduler;
 import rx.Subscription;
-import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
 public class MultiSelectionPresenter implements MultiSelectionContract.Presenter {
     Set<Integer> answers = new TreeSet<Integer>();
     InputAndAnswerEntity model;
-    Scheduler observeOn;
-    Scheduler subscribeOn;
+    private Scheduler observeOn;
 
-    CompositeSubscription compositeSubscription = new CompositeSubscription();
+    private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
-    public MultiSelectionPresenter(
-            Scheduler observeOn,
-            Scheduler subscribeOn
-    ) {
+    public MultiSelectionPresenter(Scheduler observeOn) {
         this.observeOn = observeOn;
-        this.subscribeOn = subscribeOn;
     }
 
     @Override
@@ -54,15 +48,6 @@ public class MultiSelectionPresenter implements MultiSelectionContract.Presenter
                         }
                 );
         compositeSubscription.add(subscribe);
-    }
-
-    private Action1<Throwable> empty() {
-        return null;
-    }
-
-    @Override
-    public void unbind() {
-        compositeSubscription.unsubscribe();
     }
 
     @Override
