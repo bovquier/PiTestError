@@ -1,0 +1,16 @@
+apply plugin: 'pl.droidsonroids.pitest'
+
+def classesToTest = [
+        "MultiSelectionPresenter"
+]
+
+def classesToExclude = [ ]
+
+pitest {
+    targetClasses = classesToTest.collect { "com.bovquier.pitesterror.*$it*" }
+    excludedClasses = classesToExclude.collect { "com.bovquier.pitesterror.*$it*" }
+    mutationThreshold = 1
+    threads = 4
+    outputFormats = ['XML', 'HTML']
+    timestampedReports = false
+}
